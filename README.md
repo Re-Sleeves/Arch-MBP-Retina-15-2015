@@ -48,4 +48,4 @@ Items needed for install:
      ```
    + Select `NetworkManager` in network configuration if selected Gnome or KDE for the desktop enviroment
    + Select your timezone and keep automatic time sync to `true`
-   + Install
+   + Install (don't have to chroot after installation, just reboot)
