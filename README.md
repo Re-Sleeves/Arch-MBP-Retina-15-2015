@@ -1,68 +1,130 @@
 # Installing Arch Linux on a 2015 Macbook Pro (15")
-Instructions to setup and running for daily use
 
-Items needed for install:
+Set up Arch Linux for daily use on a 2015 Retina MacBook Pro.
 
-   + Internet connection
-   + USB flash drive
+## Requirements
+
+- Internet connection  
+- USB flash drive
 
 ## Instructions
 
-#### 1. On a seperate computer download the [Arch Linux iso](https://www.archlinux.org/download/).
-#### 2. Use [rufus](https://rufus.ie/en/) to burn the iso to the USB flash drive.
-#### 3. Boot to USB drive.
+### 1. Download the Arch Linux ISO
 
-   + Power down your Macbook
-   + Insert USB
-   + Power on, press and hold the `Alt/Option` key
-   + On the UEFI selection menu, select EFI/USB boot option
+On a separate computer, download the [Arch Linux ISO](https://www.archlinux.org/download/).
+
+### 2. Create a Bootable USB
+
+Use [Rufus](https://rufus.ie/en/) (on Windows) to burn the ISO to the USB flash drive.
+
+### 3. Boot from USB
+
+1. Power down your MacBook.  
+2. Insert the USB drive.  
+3. Power on and immediately hold the `Option` (Alt) key.  
+4. In the UEFI boot menu, select the `EFI/USB` boot option.
     
-#### 4. Connect to wifi.
+### 4. Connect to Wi-Fi
 
-   + Type in `iwctl`
-   + List all wireless devices: `device list`; typically for laptops the wirless device will be `wlan0`
-   + List all available networks: `station name get-networks`
-   + To connect to the network: `station name connect SSID`
-   + After typing in the password wait a few seconds before `exit`
-    
-#### 5. Initialize the `archinstall`.
+1. Enter the `iwctl` utility:
+   ```
+   iwctl
+   ```
+2. List wireless devices (usually `wlan0` on laptops):
+   ```
+   device list
+   ```
+3. Show available networks:
+   ```
+   station wlan0 get-networks
+   ```
+4. Connect to your Wi-Fi network:
+   ```
+   station wlan0 connect <SSID>
+   ```
+5. Wait a few seconds after entering the password, then type:
+   ```
+   exit
+   ```
+### 5. Run the Arch Installer
 
-   Use the spacebar for toggling selections and enter to proceed.
+Start the guided installer:
+```
+archinstall
+```
 
-   + Keep language and locals the same (unless different language)
-   + Select United States and Canada for Mirrors
-   + For disk configuration select the disk you want to run Arch linux on and select `btrfs` for the file system
-     + Use default structure
-     + Select enable copy on write
-   + Skip to bootloader and select `Systemd-boot`
-   + Change or keep the hostname (name of computer)
-   + Create a root password and create a user account
-      * Typically main user can be selected as `sudo`
-   + In profile select your prefered destop enviroment (I prefer KDE)
-      * Keep graphics driver `All open-source` and greeter `sddm`
-   + Select `pipewire` in audio
-   + In kernels I prefer using `linux-lts` for long term support; `linux` works just as fine
-   + For additional packages paste the following:
+Use the spacebar to select options and `Enter` to continue.
+
+### Recommended Installer Settings
+
+- **Locale & Language:** Keep defaults unless needed otherwise.  
+- **Mirrors:** Select United States and/or Canada.  
+- **Disk Configuration:**
+  - Choose the target disk.
+  - Select the `btrfs` file system.
+  - Use the default structure.
+  - Enable Copy-on-Write (CoW).
+- **Bootloader:** Select `systemd-boot`.
+- **Hostname:** Set a computer name.
+- **User Setup:**
+  - Create a root password.
+  - Add a user (assign as `sudo` if desired).
+- **Profile:**
+  - Select a desktop environment (I prefer KDE).
+  - Graphics driver: `All open-source`.
+  - Greeter: `sddm`.
+- **Audio:** Choose `pipewire`.
+- **Kernel:** 
+  - Recommended: `linux-lts` (long-term support).
+  - Alternatively: `linux`.
+- **Additional Packages:**
+  ```
+  flatpak linux-lts-headers noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
+  ```
+- **Network Configuration:**
+  - Choose `NetworkManager` (especially for GNOME or KDE installations).
+- **Timezone:** Set yours, and enable automatic time sync.
+
+After setup, proceed with the installation. You **do not need to chroot**—simply reboot when it's done.
+
+## 6. Post-Install: Fix Driver Issues
+
+After logging into KDE, you might notice that Wi-Fi and the camera aren't working.
+<!-- add how to install yay -->
+Install the necessary drivers:
+```
+yay -S facetimehd-firmware facetimehd-dkms
+```
+### Fixing Wi-Fi
+
+1. Edit your bootloader entry:
+   ```bash
+   sudo nano /boot/loader/entries/your-boot-entry.conf
+   ```
+   - If you're unsure of the file name, list entries:
+     ```bash
+     ls /boot/loader/entries/
      ```
-     flatpak linux-lts-headers noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
-     ```
-   + Select `NetworkManager` in network configuration if selected Gnome or KDE for the desktop enviroment
-   + Select your timezone and keep automatic time sync to `true`
-   + Install (don't have to chroot after installation, just reboot)
+     - For `linux-lts`, the file will end with `_linux-lts.conf`.
 
-#### 6. Fixing driver issues.
+2. Add the following kernel parameter to the `options` line:
+   ```
+   brcmfmac.feature_disable=0x82000
+   ```
+   Example:
+   ```
+   options root=UUID=xxxx-xxxx ..... brcmfmac.feature_disable=0x82000
+   ```
+### Fixing the Camera
 
-   After booting into KDE successfully you might notice that the wifi and camera doesnt work.
-   `facetimehd-firmware facetimehd-dkms`
-   #### To fix the wifi:
-   + In the terminal use nano to load into your boot entry config: `sudo nano /boot/loader/entries/Your Boot Entry.conf`
-      * If you dont know your boot entry, type in `sudo nano /boot/loader/entries/` and press tab on your keyboard to look at all the files. Because I am using linux lts, I will be using the `..._linux-lts.conf`
-   + Add the kernel parameter on the options line `brcmfmac.feature_disable=0x82000`
-      * It should look like `options root=UUID=xxxx-xxxx ... brcmfmac.feature_disable=0x82000`
-   #### To fix the camera:
-   + In the terminal type `sudo modprobe facetimehd`
+Enable the camera module with:
+```
+sudo modprobe facetimehd
+```
 
-Congratulations you have successfully installed Arch on the MBP retina (15" 2015)
+## 🎉 Done!
+
+You've successfully installed Arch Linux on a 2015 MacBook Pro Retina (15").
 
 ## Optional Settings
 `ttf-ms-fonts`
