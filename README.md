@@ -172,9 +172,9 @@ sudo intel-undervolt apply
 sudo systemctl enable --now intel-undervolt
 ```
 ### Increasing fan speed
-1. Download `macfanctl`
+1. Download `macfanctld`
 ```
-yay -S macfanctl
+yay -S macfanctld
 ```
 2. Load fan control configuration
 ```
