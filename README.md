@@ -93,19 +93,6 @@ While in systemd, use arrow keys to select the desired kernel; use the `d` key t
 
 After logging into KDE, you might notice that Wi-Fi and the camera aren't working.
 
-Install [`yay`](https://github.com/Jguer/yay) (AUR Helper)
-
-`yay` downloads packages from AUR (Arch User Repository)
-
-Install yay with the following commands:
-```
-sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-```
-
-Install the necessary drivers:
-```
-yay -S facetimehd-firmware facetimehd-dkms
-```
 ### Fixing Wi-Fi
 
 1. Edit your bootloader entry:
@@ -127,6 +114,20 @@ yay -S facetimehd-firmware facetimehd-dkms
    options root=UUID=xxxx-xxxx ..... brcmfmac.feature_disable=0x82000
    ```
 ### Fixing the Camera
+
+Install [`yay`](https://github.com/Jguer/yay) (AUR Helper)
+
+`yay` downloads packages from AUR (Arch User Repository)
+
+Install yay with the following commands:
+```
+sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+```
+
+Install the necessary drivers:
+```
+yay -S facetimehd-firmware facetimehd-dkms
+```
 
 Enable the camera module with:
 ```
