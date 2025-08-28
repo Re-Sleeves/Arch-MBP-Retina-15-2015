@@ -1,21 +1,21 @@
 # Installing Arch Linux on a 2015 Macbook Pro (15")
 
-Set up Arch Linux for daily use on a 2015 Retina MacBook Pro.
+Arch Linux for 2015 Retina MacBook Pro.
 
 ## Requirements
 
-- Internet connection  
-- USB flash drive
+- Wi-Fi  
+- USB
 
 ## Instructions
 
-### 1. Download the Arch Linux ISO
+### 1. Download the Arch ISO
 
-On a separate computer, download the [Arch Linux ISO](https://www.archlinux.org/download/).
+On a separate computer, download the [Arch ISO](https://www.archlinux.org/download/).
 
 ### 2. Create a Bootable USB
 
-Use [Rufus](https://rufus.ie/en/) (on Windows) to burn the ISO to the USB flash drive.
+Use [Rufus](https://rufus.ie/en/) to burn the ISO to the USB.
 
 ### 3. Boot from USB
 
@@ -30,7 +30,7 @@ Use [Rufus](https://rufus.ie/en/) (on Windows) to burn the ISO to the USB flash 
    ```
    iwctl
    ```
-2. List wireless devices (usually `wlan0` on laptops):
+2. List wireless devices (usually `wlan0`):
    ```
    device list
    ```
@@ -46,18 +46,17 @@ Use [Rufus](https://rufus.ie/en/) (on Windows) to burn the ISO to the USB flash 
    ```
    exit
    ```
-### 5. Run the Arch Installer
+### 5. Running the Arch Installer
 
-Start the guided installer:
 ```
 archinstall
 ```
 
 Use the spacebar to select options and `Enter` to continue.
 
-### Recommended Installer Settings
+### Recommended Settings
 
-- **Locale & Language:** Keep defaults unless needed otherwise.  
+- **Locale & Language:** Keep defaults unless needed.  
 - **Mirrors:** Select United States and/or Canada.  
 - **Disk Configuration:**
   - Choose the target disk.
@@ -68,7 +67,7 @@ Use the spacebar to select options and `Enter` to continue.
 - **Hostname:** Set a computer name.
 - **User Setup:**
   - Create a root password.
-  - Add a user (assign as `sudo` if desired).
+  - Add a user (assign as `sudo`).
 - **Profile:**
   - Select a desktop environment (I prefer KDE).
   - Graphics driver: `All open-source`.
@@ -76,22 +75,21 @@ Use the spacebar to select options and `Enter` to continue.
 - **Audio:** Choose `pipewire`.
 - **Kernel:** 
   - Recommended: `linux-lts` (long-term support).
-  - Alternatively: `linux`.
 - **Additional Packages:**
   ```
   flatpak linux-lts-headers noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
   ```
 - **Network Configuration:**
-  - Choose `NetworkManager` (especially for GNOME or KDE installations).
+  - Choose `NetworkManager` (for GNOME or KDE installations).
 - **Timezone:** Set yours, and enable automatic time sync.
 
-After setup, proceed with the installation. You **do not need to chroot**—simply reboot when it's done.
+After setup, proceed with the installation then reboot.
 
-While in systemd, use arrow keys to select the desired kernel; use the `d` key to select the default kernel.
+While in systemd, use arrow keys to select the kernel; use the `d` key to select the default kernel.
 
 ## 6. Post-Install: Fix Driver Issues
 
-After logging into KDE, you might notice that Wi-Fi and the camera aren't working.
+After logging into KDE, the Wi-Fi and camera do not work out of the box.
 
 ### Fixing Wi-Fi
 
@@ -115,28 +113,28 @@ After logging into KDE, you might notice that Wi-Fi and the camera aren't workin
    ```
 ### Fixing the Camera
 
-Install [`yay`](https://github.com/Jguer/yay) (AUR Helper)
+Install [`yay`](https://github.com/Jguer/yay)
 
-`yay` downloads packages from AUR (Arch User Repository)
+`yay` downloads packages from AUR
 
-Install yay with the following commands:
+Install yay:
 ```
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 ```
 
-Install the necessary drivers:
+Install necessary drivers:
 ```
 yay -S facetimehd-firmware facetimehd-dkms
 ```
 
-Enable the camera module with:
+Enable the camera module:
 ```
 sudo modprobe facetimehd
 ```
 
-## 🎉 Done!
+## Finished
 
-You've successfully installed Arch Linux on a 2015 MacBook Pro Retina (15").
+You've successfully installed Arch on a 2015 MacBook Pro.
 
 ## Optional Steps
 
