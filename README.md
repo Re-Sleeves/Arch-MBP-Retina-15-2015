@@ -134,8 +134,6 @@ sudo modprobe facetimehd
 
 ## Finished
 
-You've successfully installed Arch on a 2015 MacBook Pro.
-
 ## Optional Steps
 
 Microsoft Windows 11 Fonts
